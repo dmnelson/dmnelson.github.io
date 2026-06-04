@@ -54,6 +54,21 @@ export const site = {
       href: "https://github.com/dmnelson",
     },
   ],
+  publicationsIntro:
+    "Research work on machine learning and financial time series.",
+  publications: [
+    {
+      title:
+        "Stock market’s price movement prediction with LSTM neural networks",
+      description: "IJCNN, 2017.",
+      href: "https://ieeexplore.ieee.org/document/7966019",
+    },
+    {
+      title: "Using LSTM and Technical Indicators to predict price movements",
+      description: "KDMiLe, 2016.",
+      href: "https://cin.ufpe.br/~rv2/kdmile2016/anais-kdmile-2016.pdf",
+    },
+  ],
   elsewhere: [
     { label: "GitHub", href: "https://github.com/dmnelson" },
     {

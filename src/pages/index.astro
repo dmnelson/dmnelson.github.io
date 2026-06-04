@@ -66,6 +66,23 @@ import { site } from "../data/site";
       </ul>
     </section>
 
+    <section aria-labelledby="publications">
+      <h2 id="publications">Publications</h2>
+      <p>{site.publicationsIntro}</p>
+
+      <!-- These publication links are manually curated in src/data/site.ts. -->
+      <ul class="link-list">
+        {
+          site.publications.map((publication) => (
+            <li>
+              <a href={publication.href}>{publication.title}</a>
+              <span class="link-description"> — {publication.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
   </main>
 
   <footer>
