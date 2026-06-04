@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title={`Page not found · ${site.masthead}`}
+  description="The requested page could not be found."
+>
+  <header class="masthead">
+    <a href="/" aria-label="david.mn home">{site.masthead}</a>
+  </header>
+
+  <main id="main-content" class="not-found">
+    <h1>Page not found.</h1>
+    <p>There is nothing at this address.</p>
+    <p><a href="/">Return home</a></p>
+  </main>
+
+  <footer>
+    <small>{site.footer}</small>
+  </footer>
+</BaseLayout>

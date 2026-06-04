@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title={site.title} description={site.description}>
+  <header class="masthead">
+    <a href="/" aria-label="david.mn home">{site.masthead}</a>
+  </header>
+
+  <main id="main-content">
+    <section class="introduction" aria-labelledby="name">
+      <h1 id="name">{site.name}</h1>
+      <p>{site.intro}</p>
+      <nav class="elsewhere-links" aria-label="Elsewhere">
+        {
+          site.elsewhere.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))
+        }
+      </nav>
+    </section>
+
+    <section aria-labelledby="currently">
+      <h2 id="currently">Currently</h2>
+      <p>{site.currently}</p>
+    </section>
+
+    <section aria-labelledby="thinking">
+      <h2 id="thinking">Things I keep returning to</h2>
+      <dl class="theme-list">
+        {
+          site.thinkingAbout.map((item) => (
+            <div class="theme-item">
+              <dt>{item.theme}</dt>
+              <dd>{item.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <img
+      class="mountain-photo"
+      src="/images/mountain.jpg"
+      alt="David standing on a rocky mountain trail."
+      width="1500"
+      height="1000"
+      decoding="async"
+    />
+
+    <section aria-labelledby="code">
+      <h2 id="code">Code</h2>
+      <p>{site.codeIntro}</p>
+
+      <!-- These links are manually curated in src/data/site.ts. -->
+      <ul class="link-list">
+        {
+          site.codeLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.title}</a>
+              <span class="link-description"> — {link.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <small>{site.footer}</small>
+  </footer>
+</BaseLayout>
