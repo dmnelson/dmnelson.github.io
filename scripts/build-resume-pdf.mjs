@@ -18,6 +18,13 @@ const html = render(resume);
 await writeFile(tempHtmlPath, html, "utf8");
 
 const chromePath = resolveChromePath();
+const pdfReadyTimeoutMs = Number(process.env.RESUME_PDF_TIMEOUT_MS ?? "120000");
+const pdfStableCheckIntervalMs = Number(
+  process.env.RESUME_PDF_STABLE_CHECK_INTERVAL_MS ?? "500",
+);
+const pdfStableCheckCount = Number(
+  process.env.RESUME_PDF_STABLE_CHECK_COUNT ?? "2",
+);
 
 if (!chromePath) {
   console.error(
@@ -133,7 +140,7 @@ async function printToPdf(chromePath, userDataDir, htmlPath, pdfPath) {
       () => ({ type: "pdf-ready" }),
       (error) => ({ type: "pdf-error", error }),
     ),
-    delay(45_000).then(() => ({ type: "timeout" })),
+    delay(pdfReadyTimeoutMs).then(() => ({ type: "timeout" })),
   ]);
 
   if (firstResult.type === "error") {
@@ -168,14 +175,14 @@ async function waitForStablePdf() {
   let previousSize = -1;
   let stableChecks = 0;
 
-  for (let elapsed = 0; elapsed < 30_000; elapsed += 500) {
+  for (let elapsed = 0; elapsed < pdfReadyTimeoutMs; elapsed += pdfStableCheckIntervalMs) {
     try {
       const pdf = await stat(publicPdfPath);
 
       if (pdf.size > 0 && pdf.size === previousSize) {
         stableChecks += 1;
 
-        if (stableChecks >= 2) {
+        if (stableChecks >= pdfStableCheckCount) {
           return;
         }
       } else {
@@ -188,7 +195,7 @@ async function waitForStablePdf() {
       stableChecks = 0;
     }
 
-    await delay(500);
+    await delay(pdfStableCheckIntervalMs);
   }
 
   throw new Error(`Chrome did not create a stable PDF at ${publicPdfPath}.`);
