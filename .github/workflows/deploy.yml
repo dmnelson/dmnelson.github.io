@@ -21,8 +21,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v2
+
       - name: Install, build, and upload site
         uses: withastro/action@v6
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         with:
           node-version: 22
 

@@ -1,0 +1,82 @@
+---
+import { render } from "jsonresume-theme-colophon";
+import resume from "../data/resume.json";
+
+const downloadButtonStyles = `
+.pdf-download {
+  align-items: center;
+  background: color-mix(in srgb, var(--text) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--background) 34%, transparent);
+  border-radius: 6px;
+  box-shadow: 0 0.55rem 1.8rem rgba(36, 35, 33, 0.16);
+  color: var(--background);
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  gap: 0.42rem;
+  line-height: 1;
+  padding: 0.72rem 0.82rem;
+  position: fixed;
+  right: clamp(0.85rem, 2vw, 1.35rem);
+  text-decoration: none;
+  text-decoration-color: transparent;
+  top: clamp(0.85rem, 2vw, 1.35rem);
+  z-index: 20;
+}
+
+.pdf-download:hover {
+  background: var(--accent);
+  color: var(--background);
+}
+
+.pdf-download:focus-visible {
+  outline-color: var(--focus);
+}
+
+.pdf-download svg {
+  flex: 0 0 auto;
+  height: 1rem;
+  stroke-width: 2;
+  width: 1rem;
+}
+
+@media (max-width: 40rem) {
+  .pdf-download {
+    border-radius: 999px;
+    bottom: 0.9rem;
+    height: 2.75rem;
+    justify-content: center;
+    left: auto;
+    padding: 0;
+    right: 0.9rem;
+    top: auto;
+    width: 2.75rem;
+  }
+
+  .pdf-download span {
+    display: none;
+  }
+}
+
+@media print {
+  .pdf-download {
+    display: none;
+  }
+}
+`;
+const downloadButton = `
+<a class="pdf-download" href="/resume.pdf" download aria-label="Download PDF" title="Download PDF">
+  <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <path d="M7 10l5 5 5-5"></path>
+    <path d="M12 15V3"></path>
+  </svg>
+  <span>Download PDF</span>
+</a>`;
+const html = render(resume)
+  .replace("</style>", `${downloadButtonStyles}</style>`)
+  .replace("</body>", `${downloadButton}</body>`);
+---
+
+<Fragment set:html={html} />

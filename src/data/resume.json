@@ -1,0 +1,293 @@
+{
+  "meta": {
+    "theme": "colophon"
+  },
+  "basics": {
+    "name": "David Michael Q. Nelson",
+    "label": "Full-Stack Software Engineer with Technical Leadership Experience",
+    "email": "me@david.mn",
+    "summary": "Software engineer with over 20 years of experience building and evolving complex web systems across multiple domains. Strong background in full-stack development with particular depth in backend architecture and product-facing applications, with a track record of growing into technical leadership roles while remaining hands-on. Holds a Master’s degree in Computer Science with research in machine learning and a particular interest in AI-powered products and data-driven systems. Experienced in working across the full software lifecycle, from system design to delivery in regulated and data-intensive environments.",
+    "location": {
+      "address": "Brazilian/American (dual citizenship) @ Belo Horizonte/MG - Brazil"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "dmnelson",
+        "url": "https://github.com/dmnelson"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "davidmichaelnelson",
+        "url": "https://www.linkedin.com/in/davidmichaelnelson"
+      }
+    ],
+    "url": "https://david.mn/"
+  },
+  "skills": [
+    {
+      "name": "Backend & Architecture",
+      "keywords": [
+        "Ruby on Rails",
+        "Elixir",
+        "Java",
+        "CQRS",
+        "Event Sourcing",
+        "System Design",
+        "APIs"
+      ]
+    },
+    {
+      "name": "Frontend",
+      "keywords": ["React", "Elixir LiveView", "Ember.js"]
+    },
+    {
+      "name": "Data & Machine Learning",
+      "keywords": ["Python", "LSTM", "Time Series Analysis", "Neural Networks"]
+    },
+    {
+      "name": "Infrastructure",
+      "keywords": ["Docker", "Kubernetes", "PostgreSQL", "Linux", "CI/CD"]
+    },
+    {
+      "name": "Leadership & Practices",
+      "keywords": [
+        "Technical Leadership",
+        "Architecture Decisions",
+        "Mentoring",
+        "Hiring",
+        "Agile (Scrum, Kanban, XP)"
+      ]
+    }
+  ],
+  "work": [
+    {
+      "name": "Dexory",
+      "position": "Senior Software Engineer (Remote)",
+      "startDate": "2024-03",
+      "summary": "Joined Dexory as an early engineer to help build the user-facing web platform for a robotics-based warehouse intelligence system. The platform visualizes large-scale scan data from autonomous robots and correlates it with third-party WMS data to detect inventory issues and drive operational improvements.",
+      "highlights": [
+        "Primary contributor to core business features including the task manager, warehouse optimization modules, and floor-stacking (block stacking) support, allowing users to visualize and resolve stock issues for high-density pallet storage areas.",
+        "Designed and implemented key UI patterns and components to support complex workflows and large data volumes.",
+        "Worked extensively on performance and data handling challenges driven by ingestion of millions of warehouse scans per day.",
+        "Introduced an integration framework for consuming customer WMS APIs, adding a new integration path alongside existing email- and FTP-based workflows.",
+        "Contributed to the introduction of a machine learning feature for detecting rental pallets using image recognition."
+      ],
+      "url": "https://dexory.com"
+    },
+    {
+      "name": "Enzyme",
+      "position": "Head of Engineering (Remote)",
+      "startDate": "2023-04",
+      "endDate": "2024-03",
+      "summary": "Led the engineering organization responsible for evolving Enzyme’s quality management system (eQMS) to support growth across multiple segments of the life sciences industry. Accountable for technical strategy, delivery, and product evolution in a regulated environment.",
+      "highlights": [
+        "Owned technical direction and execution for core product initiatives in a regulated SaaS platform used by life sciences customers.",
+        "Oversaw and continued the frontend migration to Elixir LiveView, including a full UI/UX redesign to improve usability and long-term maintainability.",
+        "Designed and delivered webhook-based integration capabilities to enable customer system integrations with external software.",
+        "Implemented in-app Office document editing by integrating with Office for the web, reducing friction in regulated document workflows.",
+        "Drove infrastructure cost-optimization initiatives while maintaining system reliability and compliance requirements.",
+        "Delivered new QMS capabilities for risk management and access control, supporting expanded regulatory and enterprise use cases."
+      ],
+      "url": "http://www.enzyme.com"
+    },
+    {
+      "name": "Enzyme",
+      "position": "Team Lead Engineer (Remote)",
+      "startDate": "2022-08",
+      "endDate": "2023-04",
+      "summary": "Led the team responsible for rebuilding Enzyme’s frontend using Elixir LiveView, replacing a legacy Ember.js application while modernizing the user experience and improving maintainability.",
+      "highlights": [
+        "Owned delivery of a full frontend rewrite from Ember.js to Elixir LiveView, including a comprehensive UI and UX redesign.",
+        "Defined the technical migration strategy to allow gradual replacement of legacy components while keeping the product operational.",
+        "Acted as technical lead and cross-functional coordinator, bridging engineering, product, and design responsibilities during the transition.",
+        "Established frontend architecture patterns and reusable UI components for the new LiveView-based application.",
+        "Led hiring, onboarding, and mentoring of engineers joining the team during the rewrite project."
+      ],
+      "url": "http://www.enzyme.com"
+    },
+    {
+      "name": "Enzyme",
+      "position": "Principal Software Engineer (Remote)",
+      "startDate": "2019-12",
+      "endDate": "2022-07",
+      "summary": "Joined Enzyme as a senior technical contributor to help evolve its electronic Quality Management System (eQMS), working across backend, frontend, and data architecture in a highly regulated domain.",
+      "highlights": [
+        "Was a core contributor to the redesign of the application’s core data architecture from an ActiveRecord-based model to a CQRS and Event Sourcing approach using Elixir and the Commanded framework.",
+        "Owned the migration of customer data to the new event-based model, including validation and auditing of data integrity across production environments.",
+        "Served as primary responder for critical production incidents and complex system failures, ensuring continuity of service for regulated customers.",
+        "Acted as a key technical decision-maker for architecture and platform evolution across multiple subsystems.",
+        "Designed and delivered core product features spanning backend services and user-facing functionality."
+      ],
+      "url": "http://www.enzyme.com"
+    },
+    {
+      "name": "Power Home Remodeling Group",
+      "position": "Software Engineer (Remote)",
+      "startDate": "2017-03",
+      "endDate": "2019-11",
+      "summary": "Core contributor to Nitro, a large-scale Ruby on Rails and React platform supporting critical business operations across multiple departments of a national home remodeling company.",
+      "highlights": [
+        "Drove improvements in developer productivity by optimizing build and deployment pipelines, significantly reducing feedback and release times.",
+        "Led the development of a machine learning model used to predict project outcomes and support operational decision-making.",
+        "Played a key role in the migration of the application to a container-based infrastructure using Docker and Kubernetes.",
+        "Owned the maintenance and evolution of the telephony system supporting the company’s contact center operations.",
+        "Led the design and implementation of a warehouse management system built from the ground up, reshaping how the business tracked and managed inventory."
+      ],
+      "url": "http://www.powerhrg.com"
+    },
+    {
+      "name": "Woboinc",
+      "position": "Team Lead Engineer (Remote)",
+      "startDate": "2013-04",
+      "endDate": "2016-11",
+      "summary": "Led a distributed team delivering multiple Ruby on Rails projects, including two large e-commerce platforms focused on book sales, across both legacy systems and greenfield initiatives.",
+      "highlights": [
+        "Led and coached a team of engineers across several concurrent projects, establishing delivery practices based on Scrum and Kanban.",
+        "Owned the design and implementation of search and product discovery services built on Apache Solr, improving catalog navigation and conversion.",
+        "Drove DevOps and server management efforts, improving deployment reliability and operational visibility.",
+        "Contributed beyond engineering by supporting quality assurance processes and project management activities."
+      ],
+      "url": "http://www.woboinc.com"
+    },
+    {
+      "name": "Thoughtworks",
+      "position": "Senior Consultant Developer",
+      "startDate": "2011-07",
+      "endDate": "2013-03",
+      "summary": "Worked as a senior consultant on distributed delivery teams for a global retail client (Gap Inc.), contributing to large-scale e-commerce systems while applying agile and lean engineering practices.",
+      "highlights": [
+        "Delivered features and improvements across a large polyglot codebase primarily built on Java, with components in JRuby and Bash.",
+        "Selected to join a core team responsible for database management and data reliability for critical business systems.",
+        "Helped introduce new automated testing and quality practices, expanding and formalizing existing engineering workflows across multiple teams.",
+        "Played an active role in recruiting and interviewing engineers for Thoughtworks Brazil.",
+        "Participated in an internal committee supporting Thoughtworks’ physical expansion into new cities in Brazil."
+      ],
+      "url": "https://www.thoughtworks.com"
+    },
+    {
+      "name": "Bhtec",
+      "position": "Senior Software Developer",
+      "startDate": "2010-06",
+      "endDate": "2011-07",
+      "summary": "Led the development of multiple client and internal projects, working across web and desktop applications in enterprise environments.",
+      "highlights": [
+        "Led the development of an internal video sharing platform for Fiat using Groovy and Grails.",
+        "Designed and built the Case Construction corporate website as a fullstack developer.",
+        "Developed an internal task management desktop application using Java Swing to support operational workflows."
+      ],
+      "url": "http://www.bhtec.com.br"
+    },
+    {
+      "name": "Algar Tech",
+      "position": "Java Developer (Contractor)",
+      "startDate": "2009-09",
+      "endDate": "2010-05",
+      "summary": "Worked as a contractor delivering enterprise Java solutions for multiple clients, including on-site leadership for a global security services company (Prosegur).",
+      "highlights": [
+        "Founded and led a new Java development team and platform from scratch at Prosegur to support mission-critical business systems.",
+        "Led the design and development of a fleet management platform for Prosegur’s valuables transportation business, including real-time monitoring and tracking of armored vehicles.",
+        "Developed a customer-facing system enabling clients to schedule and manage private security services.",
+        "Designed and implemented a web-based platform to connect physiotherapists for a local startup, covering both backend and user-facing functionality.",
+        "Researched and delivered a proof of concept for automating the migration of a legacy desktop application to a web-based system for Santander Bank."
+      ],
+      "url": "http://www.algartech.com/en/"
+    },
+    {
+      "name": "Rudder Technologies",
+      "position": "Java Developer",
+      "startDate": "2008-08",
+      "endDate": "2009-09",
+      "summary": "Contributed to the development of a web platform used by tourism organizations to manage destination content and support hotel booking operations.",
+      "highlights": [
+        "Developed features for an enterprise Java application based on the JBoss ecosystem (Portal, Seam, Drools, Hibernate, jBPM) and JSF.",
+        "Contributed to automated testing and quality assurance using Selenium and JUnit.",
+        "Worked across the full delivery lifecycle in a small, fast-moving team, from feature implementation to deployment and support."
+      ],
+      "url": "http://www.rudder-tech.com/en"
+    },
+    {
+      "name": "Bhtec",
+      "position": "Fullstack Developer",
+      "startDate": "2006-11",
+      "endDate": "2008-08",
+      "summary": "Contributed to enterprise web applications for a major automotive client (Fiat Group), supporting sales operations and dealer capability development across multiple business units.",
+      "highlights": [
+        "Developed core features for Fiat’s car sales platform serving enterprise and government customers using a Java EE stack (Struts, EJB, WebSphere, Hibernate, Oracle).",
+        "Built and maintained a training platform for Fiat’s dealership network to support skills development and operational standardization.",
+        "Contributed to the development of a regional television network website, delivering both frontend and backend functionality."
+      ],
+      "url": "http://www.bhtec.com.br"
+    },
+    {
+      "name": "OpenCorporate",
+      "position": "Fullstack Developer",
+      "startDate": "2006-01",
+      "endDate": "2006-11",
+      "summary": "Worked at a digital agency delivering web applications for clients across multiple industries, transitioning from frontend-focused work to fullstack development.",
+      "highlights": [
+        "Developed and maintained client-facing websites for companies in sectors such as construction, sports, and consulting.",
+        "Built a backend system in PHP for a traffic enforcement camera provider to support internal operational workflows.",
+        "Delivered a fullstack web application for a financial institution using a Java-based stack (Spring, Struts, Hibernate, PostgreSQL)."
+      ]
+    },
+    {
+      "name": "EIA",
+      "position": "Webdesigner / Frontend Developer (Intern)",
+      "startDate": "2005-09",
+      "endDate": "2006-01",
+      "summary": "First professional experience focused on frontend design and development for products targeting the tourism industry.",
+      "highlights": [
+        "Designed and implemented user interfaces for web-based products aimed at tourism and travel services.",
+        "Contributed to frontend development using HTML, CSS, and JavaScript, with additional backend work in PHP.",
+        "Supported the delivery and maintenance of client-facing features under the guidance of senior developers."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Universidade Federal de Minas Gerais (UFMG)",
+      "area": "Computer Science",
+      "studyType": "Master of Science",
+      "startDate": "2014-08",
+      "endDate": "2017-02"
+    },
+    {
+      "institution": "FUMEC",
+      "area": "Computer Science",
+      "studyType": "Bachelor of Science",
+      "startDate": "2007-02",
+      "endDate": "2010-12"
+    }
+  ],
+  "publications": [
+    {
+      "name": "Stock market's price movement prediction with LSTM neural networks",
+      "publisher": "2017 International Joint Conference on Neural Networks (IJCNN) / IEEE",
+      "releaseDate": "2017-07-03",
+      "summary": "Investigated the use of Long Short-Term Memory (LSTM) neural networks to predict short-term stock price movements based on historical market data, evaluating model performance against traditional prediction approaches.",
+      "url": "http://ieeexplore.ieee.org/document/7966019/"
+    },
+    {
+      "name": "Using LSTM and Technical Indicators to predict price movements",
+      "publisher": "Symposium on Knowledge Discovery, Mining and Learning",
+      "releaseDate": "2016-10-09",
+      "summary": "Explored the combination of LSTM neural networks with technical market indicators to improve prediction of financial time series direction, focusing on feature engineering and sequence modeling techniques.",
+      "url": "http://cin.ufpe.br/~rv2/kdmile2016/anais-kdmile-2016.pdf"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Fluent speaker"
+    },
+    {
+      "language": "Portuguese",
+      "fluency": "Native speaker"
+    },
+    {
+      "language": "Spanish",
+      "fluency": "Limited professional proficiency"
+    }
+  ]
+}

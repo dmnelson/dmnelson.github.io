@@ -75,7 +75,7 @@ export const site = {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/davidmichaelnelson/",
     },
-    { label: "CV", href: "/resume.pdf" },
+    { label: "CV", href: "/cv/" },
     { label: "Email", href: "mailto:me@david.mn" },
   ],
   footer: "Belo Horizonte, Brazil",

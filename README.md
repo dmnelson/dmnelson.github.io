@@ -10,6 +10,10 @@ The homepage copy and manually curated links live in:
 src/data/site.ts
 ```
 
+The CV source lives in `src/data/resume.json`. The `/cv/` page renders it with
+`jsonresume-theme-colophon`, and `npm run dev` / `npm run build` generate
+`public/resume.pdf` ahead of time with headless Chrome.
+
 Shared page styles live in `src/styles/global.css`.
 
 ## Local development

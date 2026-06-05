@@ -4,11 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "npm run build:resume-pdf",
     "dev": "astro dev",
+    "prebuild": "npm run build:resume-pdf",
     "build": "astro build",
+    "build:resume-pdf": "node scripts/build-resume-pdf.mjs",
     "preview": "astro preview"
   },
   "devDependencies": {
-    "astro": "^6.4.4"
+    "astro": "^6.4.4",
+    "jsonresume-theme-colophon": "^0.1.0"
   }
 }
