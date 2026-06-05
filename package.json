@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "astro": "^6.4.4",
-    "jsonresume-theme-colophon": "^0.1.0"
+    "jsonresume-theme-colophon": "^0.1.0",
+    "puppeteer-core": "^25.1.0"
   }
 }

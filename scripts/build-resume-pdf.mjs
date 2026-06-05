@@ -1,30 +1,17 @@
 #!/usr/bin/env node
 import { accessSync, constants } from "node:fs";
-import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
-import { spawn, spawnSync } from "node:child_process";
+import { mkdir, mkdtemp, readFile, rm, stat } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import puppeteer from "puppeteer-core";
 import { render } from "jsonresume-theme-colophon";
 
 const root = process.cwd();
 const resumePath = path.join(root, "src", "data", "resume.json");
 const publicPdfPath = path.join(root, "public", "resume.pdf");
-const tempHtmlDir = await mkdtemp(path.join(os.tmpdir(), "david-mn-resume-html-"));
-const tempHtmlPath = path.join(tempHtmlDir, "resume.html");
-
-const resume = JSON.parse(await readFile(resumePath, "utf8"));
-const html = render(resume);
-await writeFile(tempHtmlPath, html, "utf8");
-
+const pdfTimeoutMs = readPositiveInteger("RESUME_PDF_TIMEOUT_MS", 120_000);
 const chromePath = resolveChromePath();
-const pdfReadyTimeoutMs = Number(process.env.RESUME_PDF_TIMEOUT_MS ?? "120000");
-const pdfStableCheckIntervalMs = Number(
-  process.env.RESUME_PDF_STABLE_CHECK_INTERVAL_MS ?? "500",
-);
-const pdfStableCheckCount = Number(
-  process.env.RESUME_PDF_STABLE_CHECK_COUNT ?? "2",
-);
 
 if (!chromePath) {
   console.error(
@@ -33,29 +20,96 @@ if (!chromePath) {
   process.exit(1);
 }
 
-await rm(publicPdfPath, { force: true });
-
 const userDataDir = await mkdtemp(path.join(os.tmpdir(), "david-mn-resume-pdf-"));
+let browser;
 
 try {
-  await printToPdf(chromePath, userDataDir, tempHtmlPath, publicPdfPath);
+  const resume = JSON.parse(await readFile(resumePath, "utf8"));
+  const html = render(resume);
+
+  await mkdir(path.dirname(publicPdfPath), { recursive: true });
+  await rm(publicPdfPath, { force: true });
+
+  browser = await launchBrowser(chromePath, userDataDir);
+
+  const page = await browser.newPage();
+  page.setDefaultTimeout(pdfTimeoutMs);
+  page.setDefaultNavigationTimeout(pdfTimeoutMs);
+
+  await page.setContent(html, {
+    timeout: pdfTimeoutMs,
+    waitUntil: "load",
+  });
+  await page.emulateMediaType("print");
+  await withTimeout(
+    page.pdf({
+      path: publicPdfPath,
+      format: "Letter",
+      printBackground: true,
+      preferCSSPageSize: true,
+    }),
+    pdfTimeoutMs,
+    "Timed out while asking Chrome to print the resume PDF.",
+  );
 
   const pdf = await stat(publicPdfPath);
 
   if (pdf.size === 0) {
-    throw new Error(`Chrome created an empty PDF at ${publicPdfPath}`);
+    throw new Error(`Chrome created an empty PDF at ${publicPdfPath}.`);
   }
 
   console.log(
     `Wrote ${path.relative(root, publicPdfPath)} (${Math.round(pdf.size / 1024)} KB)`,
   );
+} catch (error) {
+  console.error(formatFailure(error, chromePath));
+  process.exitCode = 1;
 } finally {
+  if (browser) {
+    await closeBrowser(browser);
+  }
+
   await rm(userDataDir, { force: true, recursive: true });
-  await rm(tempHtmlDir, { force: true, recursive: true });
+}
+
+async function launchBrowser(executablePath, userDataDir) {
+  return await puppeteer.launch({
+    executablePath,
+    headless: true,
+    protocolTimeout: pdfTimeoutMs,
+    timeout: pdfTimeoutMs,
+    userDataDir,
+    args: [
+      "--disable-background-networking",
+      "--disable-component-update",
+      "--disable-dev-shm-usage",
+      "--disable-extensions",
+      "--disable-gpu",
+      "--disable-setuid-sandbox",
+      "--disable-sync",
+      "--font-render-hinting=none",
+      "--metrics-recording-only",
+      "--no-first-run",
+      "--no-sandbox",
+      "--noerrdialogs",
+    ],
+  });
+}
+
+async function closeBrowser(browser) {
+  const browserProcess = browser.process();
+
+  try {
+    await withTimeout(browser.close(), 10_000, "Timed out closing Chrome.");
+  } catch {
+    browserProcess?.kill("SIGKILL");
+  }
 }
 
 function resolveChromePath() {
-  const fromEnv = process.env.CHROME_PATH?.trim();
+  const fromEnv =
+    process.env.CHROME_PATH?.trim() ||
+    process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
 
   if (fromEnv && isExecutable(fromEnv)) {
     return fromEnv;
@@ -88,7 +142,11 @@ function resolveChromePath() {
     });
 
     if (found.status === 0) {
-      return found.stdout.trim().split("\n")[0];
+      const commandPath = found.stdout.trim().split("\n")[0];
+
+      if (isExecutable(commandPath)) {
+        return commandPath;
+      }
     }
   }
 
@@ -104,124 +162,44 @@ function isExecutable(filePath) {
   }
 }
 
-async function printToPdf(chromePath, userDataDir, htmlPath, pdfPath) {
-  const args = [
-    "--headless=new",
-    "--disable-background-networking",
-    "--disable-component-update",
-    "--disable-default-apps",
-    "--disable-extensions",
-    "--disable-gpu",
-    "--disable-dev-shm-usage",
-    "--disable-sync",
-    "--metrics-recording-only",
-    "--no-first-run",
-    "--no-sandbox",
-    "--noerrdialogs",
-    "--no-pdf-header-footer",
-    "--print-to-pdf-no-header",
-    `--user-data-dir=${userDataDir}`,
-    `--print-to-pdf=${pdfPath}`,
-    pathToFileURL(htmlPath).href,
+function readPositiveInteger(name, fallback) {
+  const value = Number(process.env[name] ?? fallback);
+
+  if (Number.isInteger(value) && value > 0) {
+    return value;
+  }
+
+  return fallback;
+}
+
+async function withTimeout(promise, timeoutMs, message) {
+  let timeout;
+
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timeout = setTimeout(() => reject(new Error(message)), timeoutMs);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function formatFailure(error, executablePath) {
+  const chromeVersion = spawnSync(executablePath, ["--version"], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  const details = [
+    "Failed to build resume PDF.",
+    `Chrome: ${executablePath}`,
+    `Chrome version: ${chromeVersion.stdout.trim() || "unknown"}`,
+    `Platform: ${process.platform} ${process.arch}`,
+    `CI: ${process.env.CI ? "true" : "false"}`,
+    `Timeout: ${pdfTimeoutMs}ms`,
   ];
 
-  const child = spawn(chromePath, args, { stdio: "ignore" });
-
-  const closeResult = new Promise((resolve) => {
-    child.on("error", (error) => resolve({ type: "error", error }));
-    child.on("close", (code, signal) =>
-      resolve({ type: "close", code, signal }),
-    );
-  });
-
-  const firstResult = await Promise.race([
-    closeResult,
-    waitForStablePdf().then(
-      () => ({ type: "pdf-ready" }),
-      (error) => ({ type: "pdf-error", error }),
-    ),
-    delay(pdfReadyTimeoutMs).then(() => ({ type: "timeout" })),
-  ]);
-
-  if (firstResult.type === "error") {
-    throw firstResult.error;
-  }
-
-  if (firstResult.type === "timeout") {
-    await stopChrome(child, closeResult);
-    throw new Error("Chrome timed out while printing the PDF.");
-  }
-
-  if (firstResult.type === "pdf-error") {
-    await stopChrome(child, closeResult);
-    throw firstResult.error;
-  }
-
-  if (firstResult.type === "pdf-ready") {
-    await stopChrome(child, closeResult);
-    return;
-  }
-
-  if (firstResult.code !== 0) {
-    throw new Error(
-      `Chrome exited with code ${firstResult.code}${
-        firstResult.signal ? ` and signal ${firstResult.signal}` : ""
-      }.`,
-    );
-  }
-}
-
-async function waitForStablePdf() {
-  let previousSize = -1;
-  let stableChecks = 0;
-
-  for (let elapsed = 0; elapsed < pdfReadyTimeoutMs; elapsed += pdfStableCheckIntervalMs) {
-    try {
-      const pdf = await stat(publicPdfPath);
-
-      if (pdf.size > 0 && pdf.size === previousSize) {
-        stableChecks += 1;
-
-        if (stableChecks >= pdfStableCheckCount) {
-          return;
-        }
-      } else {
-        stableChecks = 0;
-      }
-
-      previousSize = pdf.size;
-    } catch {
-      previousSize = -1;
-      stableChecks = 0;
-    }
-
-    await delay(pdfStableCheckIntervalMs);
-  }
-
-  throw new Error(`Chrome did not create a stable PDF at ${publicPdfPath}.`);
-}
-
-async function stopChrome(child, closeResult) {
-  if (child.killed || child.exitCode !== null) {
-    return;
-  }
-
-  child.kill("SIGTERM");
-
-  const stopped = await Promise.race([
-    closeResult.then(() => true),
-    delay(5_000).then(() => false),
-  ]);
-
-  if (!stopped && child.exitCode === null) {
-    child.kill("SIGKILL");
-    await closeResult;
-  }
-}
-
-function delay(ms) {
-  return new Promise((resolve) => {
-    const timeout = setTimeout(resolve, ms);
-    timeout.unref?.();
-  });
+  return `${details.join("\n")}\n\n${error?.stack || error}`;
 }
