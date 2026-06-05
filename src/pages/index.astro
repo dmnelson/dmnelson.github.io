@@ -14,8 +14,15 @@ import { site } from "../data/site";
       <p>{site.intro}</p>
       <nav class="elsewhere-links" aria-label="Elsewhere">
         {
-          site.elsewhere.map((link) => (
-            <a href={link.href}>{link.label}</a>
+          site.elsewhere.map((link, index) => (
+            <>
+              {index > 0 && (
+                <span class="elsewhere-separator" aria-hidden="true">
+                  /
+                </span>
+              )}
+              <a href={link.href}>{link.label}</a>
+            </>
           ))
         }
       </nav>
