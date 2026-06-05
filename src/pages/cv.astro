@@ -74,7 +74,11 @@ const downloadButton = `
   </svg>
   <span>Download PDF</span>
 </a>`;
+const faviconLinks = `
+    <link rel="icon" type="image/png" href="/favicon-light.png?v=2" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" href="/favicon-dark.png?v=2" media="(prefers-color-scheme: dark)">`;
 const html = render(resume)
+  .replace("</head>", `${faviconLinks}\n  </head>`)
   .replace("</style>", `${downloadButtonStyles}</style>`)
   .replace("</body>", `${downloadButton}</body>`);
 ---
