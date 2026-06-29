@@ -36,7 +36,8 @@ export const site = {
         "especially the parts close to product judgment, architecture, and team direction.",
     },
   ],
-  codeIntro: "A few older public projects and small experiments live on GitHub.",
+  codeIntro:
+    "A few recent public projects and older experiments live on GitHub.",
   codeLinks: [
     {
       title: "sentiment-analysis-imdb",
@@ -49,8 +50,31 @@ export const site = {
       href: "https://github.com/dmnelson/winston",
     },
     {
+      title: "notaflow",
+      description:
+        "tools for manual Brazilian NFS-e generation from commercial invoices.",
+      href: "https://github.com/dmnelson/notaflow",
+    },
+    {
+      title: "nfse-js",
+      description: "TypeScript tooling for Brazil's national NFS-e standard.",
+      href: "https://github.com/dmnelson/nfse-js",
+    },
+    {
+      title: "ivce",
+      description:
+        "a local-first CLI for contractor invoices from YAML files.",
+      href: "https://github.com/dmnelson/ivce",
+    },
+    {
+      title: "jsonresume-theme-colophon",
+      description:
+        "a warm, text-first JSON Resume theme for HTML resumes and PDFs.",
+      href: "https://github.com/dmnelson/jsonresume-theme-colophon",
+    },
+    {
       title: "GitHub archive",
-      description: "more public code, experiments, and older work.",
+      description: "older public code, experiments, and smaller repos.",
       href: "https://github.com/dmnelson",
     },
   ],
